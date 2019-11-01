@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Ajax quest challenge</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel='stylesheet' href='https://unpkg.com/bulma@0.7.5/css/bulma.min.css'>
@@ -28,10 +29,36 @@
 </section>
 
 <!-- We need to load axios first! -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js" integrity="sha256-S1J4GVHHDMiirir9qsXWc8ZWw74PHHafpsHp5PXtjTs=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+
+    // This function loads pokemon data from the Pokemon API
+    function fetchPokemonJSON() {
+        // Feel free to download this HTML and edit it, to use another Pokemon ID
+        const url = `https://api.chucknorris.io/jokes/random`;
+        axios.get(url)
+            .then(function(response) {
+                return response.data; // SUBTLE difference with Fetch: response.data instead of response.json()
+            })
+            .then(function(random) {
+                console.log('data decoded from JSON:', random);
+
+                // Build a block of HTML
+                const chuckHtml = `<div class="card" style="width: 18rem;">
+  <img src="${random.icon_url}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">${random.id}</h5>
+    <p class="card-text">${random.value}</p>
+    <a href="/playing.html" class="btn btn-primary">Change it</a>
+  </div>
+</div>`;
+                document.querySelector('#chuck').innerHTML = chuckHtml;
+            });
+    }
+
+    fetchPokemonJSON();
 
 </script>
 </body>
-
+    <div id="chuck"></div>
 </html>
